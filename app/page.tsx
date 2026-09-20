@@ -109,7 +109,7 @@ export default function HomePage() {
           For more than a decade, users converting YouTube media have endured aggressive ad networks, deceptive download triggers, and fake bitrates. Traditional converter services scrape low-quality 64kbps mobile streams and re-encode them into bloated 320kbps MP3 files, resulting in muffled frequency response and digital distortion.
         </p>
         <p className="mb-4 text-zinc-400">
-          YT4MP3 utilizes direct media stream demuxing. When you supply a YouTube video or Shorts link, our distributed edge pipeline isolates the native Opus audio track (sampled at 48,000 Hz) and packages it directly into the MP3, WAV, or M4A container of your choice.
+          RootVogue utilizes direct media stream demuxing. When you supply a YouTube video or Shorts link, our distributed edge pipeline isolates the native Opus audio track (sampled at 48,000 Hz) and packages it directly into the MP3, WAV, or M4A container of your choice.
         </p>
 
         <div className="my-6 p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-2">

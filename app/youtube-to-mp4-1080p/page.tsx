@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Convert and download YouTube videos to 1080p Full HD and 4K MP4 format. Smooth 60FPS playback, no watermarks, and fast downloads across all mobile and desktop devices.",
   alternates: {
-    canonical: "https://www.yt4mp3.cc/youtube-to-mp4-1080p",
+    canonical: "https://www.rootvogue.com/youtube-to-mp4-1080p",
   },
 };
 
@@ -20,7 +20,7 @@ export default function YoutubeToMp4Page() {
     },
     {
       q: "Why do some converters only download 720p?",
-      a: "YouTube serves video and audio as separate adaptive streams for resolutions higher than 720p (DASH streams). Most basic converter websites cannot multiplex high-res video with audio tracks on the fly. YT4MP3 dynamically merges the 1080p video stream with the crystal-clear audio track into a single MP4 file.",
+      a: "YouTube serves video and audio as separate adaptive streams for resolutions higher than 720p (DASH streams). Most basic converter websites cannot multiplex high-res video with audio tracks on the fly. RootVogue dynamically merges the 1080p video stream with the crystal-clear audio track into a single MP4 file.",
     },
   ];
 

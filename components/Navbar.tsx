@@ -11,7 +11,7 @@ export default function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-lg tracking-tight text-white flex items-center gap-1.5">
-              YT4MP3<span className="text-violet-400">.cc</span>
+              RootVogue<span className="text-violet-400">.com</span>
               <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
                 PRO
               </span>

@@ -1,8 +1,8 @@
-# YT4MP3.cc – Next-Gen YouTube to MP3 & MP4 Converter
+# RootVogue.com – Next-Gen YouTube to MP3 & MP4 Converter
 
-YT4MP3.cc is a high-performance, ad-free YouTube audio and video conversion platform built with **Next.js (App Router), TypeScript, and Tailwind CSS**. Engineered for extreme speed, studio-grade audio fidelity (320kbps MP3 / 16-bit WAV PCM), and organic Google ranking via programmatic SEO with 1,200+ target search pages.
+RootVogue.com is a high-performance, ad-free YouTube audio and video conversion platform built with **Next.js (App Router), TypeScript, and Tailwind CSS**. Engineered for extreme speed, studio-grade audio fidelity (320kbps MP3 / 16-bit WAV PCM), and organic Google ranking via programmatic SEO with 1,200+ target search pages.
 
-Live URL: [https://www.yt4mp3.cc](https://www.yt4mp3.cc)  
+Live URL: [https://www.rootvogue.com](https://www.rootvogue.com)  
 GitHub Repo: [https://github.com/williamcheeke4-lang/yt4mp3](https://github.com/williamcheeke4-lang/yt4mp3)
 
 ---

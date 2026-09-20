@@ -26,16 +26,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .replace(/-/g, " ")
       .replace(/\b\w/g, (l) => l.toUpperCase());
     return {
-      title: `${cleanTitle} – Free High-Fidelity Converter | YT4MP3.cc`,
-      description: `Fast and ad-free online converter for ${cleanTitle}. Download studio-grade MP3 or MP4 with zero pop-up advertisements on YT4MP3.cc.`,
+      title: `${cleanTitle} – Free High-Fidelity Converter | RootVogue.com`,
+      description: `Fast and ad-free online converter for ${cleanTitle}. Download studio-grade MP3 or MP4 with zero pop-up advertisements on www.rootvogue.com.`,
     };
   }
 
   return {
-    title: `${item.title} | YT4MP3.cc`,
+    title: `${item.title} | RootVogue.com`,
     description: item.description,
     alternates: {
-      canonical: `https://www.yt4mp3.cc/convert/${item.slug}`,
+      canonical: `https://www.rootvogue.com/convert/${item.slug}`,
     },
   };
 }
@@ -53,16 +53,16 @@ export default function DynamicKeywordPage({ params }: Props) {
 
   const dynamicFaqs = [
     {
-      q: `How does YT4MP3 optimize ${item?.keyword || "this conversion"}?`,
+      q: `How does RootVogue optimize ${item?.keyword || "this conversion"}?`,
       a: `Our automated media pipeline connects directly to YouTube's streaming cluster, isolating the audio or video track at native bit-depth and formatting it into clean ${format.toUpperCase()} with zero intrusive ads or wait timers.`,
     },
     {
       q: `Is ${title} completely free on this platform?`,
-      a: "Yes. All conversions on YT4MP3 are 100% free with no monthly subscription fees, credit card requirements, or forced registration.",
+      a: "Yes. All conversions on RootVogue are 100% free with no monthly subscription fees, credit card requirements, or forced registration.",
     },
     {
       q: "Can I use this converter on mobile devices without installing an app?",
-      a: "Yes! YT4MP3 is built as a progressive, modern web application that functions flawlessly within Safari (iOS 15+) and Google Chrome on Android, directly downloading files into your device storage.",
+      a: "Yes! RootVogue is built as a progressive, modern web application that functions flawlessly within Safari (iOS 15+) and Google Chrome on Android, directly downloading files into your device storage.",
     },
   ];
 
@@ -87,7 +87,7 @@ export default function DynamicKeywordPage({ params }: Props) {
           Specialized Protocol: {title.split("–")[0].trim()}
         </h2>
         <p className="text-zinc-400 mb-4">
-          YT4MP3 is purpose-built to deliver exact media matches for users searching for high-intent conversion utilities. By eliminating third-party pop-under scripts and client-side trackers, our platform renders up to 5x faster than legacy converter websites while guaranteeing audio integrity.
+          RootVogue is purpose-built to deliver exact media matches for users searching for high-intent conversion utilities. By eliminating third-party pop-under scripts and client-side trackers, our platform renders up to 5x faster than legacy converter websites while guaranteeing audio integrity.
         </p>
 
         {item?.usp && (

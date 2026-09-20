@@ -4,17 +4,17 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.yt4mp3.cc"),
+  metadataBase: new URL("https://www.rootvogue.com"),
   title: {
-    default: "YT4MP3: Fast YouTube to MP3 Converter (320kbps) & MP4 Downloader",
-    template: "%s | YT4MP3.cc",
+    default: "RootVogue: Fast YouTube to MP3 Converter (320kbps) & MP4 Downloader",
+    template: "%s | RootVogue.com",
   },
   description:
-    "Fast, free, and ad-free YouTube to MP3 converter. Download studio-quality 320kbps MP3 audio, uncompressed WAV, and 1080p MP4 videos with zero popups and no software required on www.yt4mp3.cc.",
+    "Fast, free, and ad-free YouTube to MP3 converter. Download studio-quality 320kbps MP3 audio, uncompressed WAV, and 1080p MP4 videos with zero popups and no software required on www.rootvogue.com.",
   keywords: [
-    "yt4mp3",
-    "yt4mp3.cc",
-    "www.yt4mp3.cc",
+    "rootvogue",
+    "rootvogue.com",
+    "www.rootvogue.com",
     "youtube to mp3",
     "youtube to mp3 converter",
     "youtube to mp3 320kbps",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     "youtube audio downloader",
     "safe youtube converter"
   ],
-  authors: [{ name: "YT4MP3 Media Lab" }],
-  creator: "YT4MP3 Media Lab",
-  publisher: "YT4MP3 Media Lab",
+  authors: [{ name: "RootVogue Media Lab" }],
+  creator: "RootVogue Media Lab",
+  publisher: "RootVogue Media Lab",
   robots: {
     index: true,
     follow: true,
@@ -41,30 +41,30 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://www.yt4mp3.cc/",
+    canonical: "https://www.rootvogue.com/",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.yt4mp3.cc",
-    siteName: "YT4MP3.cc",
-    title: "YT4MP3: High Fidelity YouTube to MP3 & MP4 Converter",
+    url: "https://www.rootvogue.com",
+    siteName: "RootVogue.com",
+    title: "RootVogue: High Fidelity YouTube to MP3 & MP4 Converter",
     description:
-      "Convert YouTube videos to 320kbps MP3 and 1080p MP4 with zero pop-up ads or redirects on www.yt4mp3.cc.",
+      "Convert YouTube videos to 320kbps MP3 and 1080p MP4 with zero pop-up ads or redirects on www.rootvogue.com.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "YT4MP3 YouTube Converter",
+        alt: "RootVogue YouTube Converter",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "YT4MP3: YouTube to MP3 320kbps Converter",
+    title: "RootVogue: YouTube to MP3 320kbps Converter",
     description:
-      "100% ad-free, fast YouTube to MP3 and MP4 conversion pipeline on www.yt4mp3.cc.",
+      "100% ad-free, fast YouTube to MP3 and MP4 conversion pipeline on www.rootvogue.com.",
   },
   verification: {
     google: "kBwcY54FPHEU3a8ABNrTM2Q-itOqFVA0AnlTU4baZiw",
@@ -80,8 +80,8 @@ export default function RootLayout({
   const webAppSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "YT4MP3",
-    url: "https://www.yt4mp3.cc",
+    name: "RootVogue",
+    url: "https://www.rootvogue.com",
     applicationCategory: "MultimediaApplication",
     operatingSystem: "All (Windows, macOS, iOS, Android, Linux)",
     browserRequirements: "Requires JavaScript. Requires HTML5.",

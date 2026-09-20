@@ -126,7 +126,7 @@ export default function Footer() {
         {/* Disclaimer & DMCA Compliance */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-400">
           <p className="max-w-2xl text-[11px] leading-relaxed text-center md:text-left">
-            <strong>Disclaimer:</strong> YT4MP3.cc is an open web utility intended solely for downloading and converting user-owned media, royalty-free audio, and content under Creative Commons or fair-use educational provisions. We do not store or host copyrighted media on our servers.
+            <strong>Disclaimer:</strong> RootVogue.com is an open web utility intended solely for downloading and converting user-owned media, royalty-free audio, and content under Creative Commons or fair-use educational provisions. We do not store or host copyrighted media on our servers.
           </p>
           <div className="flex items-center gap-2 font-mono text-[11px]">
             <Shield className="w-3.5 h-3.5 text-emerald-400" />
@@ -135,7 +135,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-6 text-center text-[11px] text-zinc-400 font-mono">
-          © {new Date().getFullYear()} YT4MP3.cc · High-Speed Ad-Free YouTube Converter.
+          © {new Date().getFullYear()} RootVogue.com · High-Speed Ad-Free YouTube Converter.
         </div>
       </div>
     </footer>

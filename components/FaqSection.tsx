@@ -14,14 +14,14 @@ export default function FaqSection({ customFaqs }: { customFaqs?: FaqItem[] }) {
   const defaultFaqs: FaqItem[] = [
     {
       q: "Does this tool provide genuine 320kbps MP3 audio?",
-      a: "Yes. Many legacy converter sites deceptively re-encode low-quality 64kbps audio into 320kbps files without any fidelity gain. YT4MP3 directly demuxes the highest available native Opus or AAC stream (often 160kbps to 256kbps native master) and encodes it with a full 320kbps Constant Bitrate (CBR) LAME algorithm at 48kHz, ensuring the broadest possible dynamic range.",
+      a: "Yes. Many legacy converter sites deceptively re-encode low-quality 64kbps audio into 320kbps files without any fidelity gain. RootVogue directly demuxes the highest available native Opus or AAC stream (often 160kbps to 256kbps native master) and encodes it with a full 320kbps Constant Bitrate (CBR) LAME algorithm at 48kHz, ensuring the broadest possible dynamic range.",
     },
     {
       q: "How can I convert and save YouTube audio on an iPhone or iPad?",
       a: "On iOS (Safari), simply paste the YouTube link into the converter box above, select MP3 or M4A, and click Convert. When the green Download button appears, tap it. Safari will ask 'Do you want to download this file?'. Tap Download, and the file will save directly into your iOS Files app in the Downloads folder, playable via the native audio player or transferable to Apple Music.",
     },
     {
-      q: "Why is YT4MP3 completely ad-free and without pop-ups?",
+      q: "Why is RootVogue completely ad-free and without pop-ups?",
       a: "Most converter portals monetize through invasive pop-under ad networks, deceptive fake download buttons, and push notification spam that can expose users to malware. We believe in providing a clean, developer-grade utility that respects user security, device memory, and privacy.",
     },
     {
@@ -30,7 +30,7 @@ export default function FaqSection({ customFaqs }: { customFaqs?: FaqItem[] }) {
     },
     {
       q: "Are there any video length or duration limitations?",
-      a: "No. Unlike other services that arbitrarily cut off videos exceeding 20 or 30 minutes, YT4MP3 can process long-form YouTube content including 1-hour to 3-hour podcasts, full audiobooks, study ambience, and DJ concerts without truncating the audio.",
+      a: "No. Unlike other services that arbitrarily cut off videos exceeding 20 or 30 minutes, RootVogue can process long-form YouTube content including 1-hour to 3-hour podcasts, full audiobooks, study ambience, and DJ concerts without truncating the audio.",
     },
     {
       q: "Is it legal to download YouTube videos for personal offline listening?",
