@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Convert YouTube to WAV audio format online. 100% uncompressed 16-bit / 44.1kHz audio for music producers, video editors, and audio engineers. Fast, free, and no software needed.",
   alternates: {
-    canonical: "/youtube-to-wav",
+    canonical: "https://yt4mp3.cc/youtube-to-wav",
   },
 };
 
@@ -21,7 +21,7 @@ export default function YoutubeToWavPage() {
     },
     {
       q: "Can I convert YouTube audio to WAV directly on iPhone or Mac?",
-      a: "Yes. WaveForge works in Safari on iOS, macOS, Chrome on Windows, and Android. The extracted .wav file can be downloaded directly into your system files with zero conversion software or plugins.",
+      a: "Yes. YT4MP3 works in Safari on iOS, macOS, Chrome on Windows, and Android. The extracted .wav file can be downloaded directly into your system files with zero conversion software or plugins.",
     },
   ];
 

@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { TOP_KEYWORDS } from "@/lib/keywords";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://waveforge.app";
+  const baseUrl = "https://yt4mp3.cc";
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/youtube-to-mp4-1080p`,
       lastModified: new Date(),
       changeFrequency: "daily",
-      priority: 0.8,
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/youtube-shorts-downloader`,
@@ -41,7 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}/convert/${k.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
-    priority: 0.7,
+    priority: k.kd <= 20 ? 0.8 : 0.7,
   }));
 
   return [...staticPages, ...programmaticPages];

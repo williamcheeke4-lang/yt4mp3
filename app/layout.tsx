@@ -4,14 +4,16 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://waveforge.app"),
+  metadataBase: new URL("https://yt4mp3.cc"),
   title: {
-    default: "WaveForge: YouTube to MP3 Converter (320kbps) & MP4 Downloader",
-    template: "%s | WaveForge",
+    default: "YT4MP3: Fast YouTube to MP3 Converter (320kbps) & MP4 Downloader",
+    template: "%s | YT4MP3.cc",
   },
   description:
-    "Fast, free, and ad-free YouTube to MP3 converter. Download studio-quality 320kbps MP3 audio, uncompressed WAV, and 1080p MP4 videos with zero popups and no software required.",
+    "Fast, free, and ad-free YouTube to MP3 converter. Download studio-quality 320kbps MP3 audio, uncompressed WAV, and 1080p MP4 videos with zero popups and no software required on YT4MP3.cc.",
   keywords: [
+    "yt4mp3",
+    "yt4mp3.cc",
     "youtube to mp3",
     "youtube to mp3 converter",
     "youtube to mp3 320kbps",
@@ -23,9 +25,9 @@ export const metadata: Metadata = {
     "youtube audio downloader",
     "safe youtube converter"
   ],
-  authors: [{ name: "WaveForge Media Lab" }],
-  creator: "WaveForge Media Lab",
-  publisher: "WaveForge Media Lab",
+  authors: [{ name: "YT4MP3 Media Lab" }],
+  creator: "YT4MP3 Media Lab",
+  publisher: "YT4MP3 Media Lab",
   robots: {
     index: true,
     follow: true,
@@ -40,25 +42,25 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://waveforge.app",
-    siteName: "WaveForge",
-    title: "WaveForge: High Fidelity YouTube to MP3 & MP4 Converter",
+    url: "https://yt4mp3.cc",
+    siteName: "YT4MP3.cc",
+    title: "YT4MP3: High Fidelity YouTube to MP3 & MP4 Converter",
     description:
-      "Convert YouTube videos to 320kbps MP3 and 1080p MP4 with zero pop-up ads or redirects.",
+      "Convert YouTube videos to 320kbps MP3 and 1080p MP4 with zero pop-up ads or redirects on YT4MP3.cc.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "WaveForge YouTube Converter",
+        alt: "YT4MP3 YouTube Converter",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WaveForge: YouTube to MP3 320kbps Converter",
+    title: "YT4MP3: YouTube to MP3 320kbps Converter",
     description:
-      "100% ad-free, studio-grade YouTube to MP3 and MP4 conversion pipeline.",
+      "100% ad-free, fast YouTube to MP3 and MP4 conversion pipeline on YT4MP3.cc.",
   },
 };
 
@@ -71,8 +73,8 @@ export default function RootLayout({
   const webAppSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "WaveForge",
-    url: "https://waveforge.app",
+    name: "YT4MP3",
+    url: "https://yt4mp3.cc",
     applicationCategory: "MultimediaApplication",
     operatingSystem: "All (Windows, macOS, iOS, Android, Linux)",
     browserRequirements: "Requires JavaScript. Requires HTML5.",

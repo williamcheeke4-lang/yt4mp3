@@ -10,8 +10,10 @@ interface Props {
   params: { slug: string };
 }
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
-  return TOP_KEYWORDS.map((k) => ({
+  return TOP_KEYWORDS.slice(0, 40).map((k) => ({
     slug: k.slug,
   }));
 }
@@ -24,16 +26,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .replace(/-/g, " ")
       .replace(/\b\w/g, (l) => l.toUpperCase());
     return {
-      title: `${cleanTitle} – Free High-Fidelity Converter | WaveForge`,
-      description: `Fast and ad-free online converter for ${cleanTitle}. Download studio-grade MP3 or MP4 with zero pop-up advertisements.`,
+      title: `${cleanTitle} – Free High-Fidelity Converter | YT4MP3.cc`,
+      description: `Fast and ad-free online converter for ${cleanTitle}. Download studio-grade MP3 or MP4 with zero pop-up advertisements on YT4MP3.cc.`,
     };
   }
 
   return {
-    title: item.title,
+    title: `${item.title} | YT4MP3.cc`,
     description: item.description,
     alternates: {
-      canonical: `/convert/${item.slug}`,
+      canonical: `https://yt4mp3.cc/convert/${item.slug}`,
     },
   };
 }
@@ -51,16 +53,16 @@ export default function DynamicKeywordPage({ params }: Props) {
 
   const dynamicFaqs = [
     {
-      q: `How does WaveForge optimize ${item?.keyword || "this conversion"}?`,
+      q: `How does YT4MP3 optimize ${item?.keyword || "this conversion"}?`,
       a: `Our automated media pipeline connects directly to YouTube's streaming cluster, isolating the audio or video track at native bit-depth and formatting it into clean ${format.toUpperCase()} with zero intrusive ads or wait timers.`,
     },
     {
       q: `Is ${title} completely free on this platform?`,
-      a: "Yes. All conversions on WaveForge are 100% free with no monthly subscription fees, credit card requirements, or forced registration.",
+      a: "Yes. All conversions on YT4MP3 are 100% free with no monthly subscription fees, credit card requirements, or forced registration.",
     },
     {
       q: "Can I use this converter on mobile devices without installing an app?",
-      a: "Yes! WaveForge is built as a progressive, modern web application that functions flawlessly within Safari (iOS 15+) and Google Chrome on Android, directly downloading files into your device storage.",
+      a: "Yes! YT4MP3 is built as a progressive, modern web application that functions flawlessly within Safari (iOS 15+) and Google Chrome on Android, directly downloading files into your device storage.",
     },
   ];
 
@@ -85,7 +87,7 @@ export default function DynamicKeywordPage({ params }: Props) {
           Specialized Protocol: {title.split("–")[0].trim()}
         </h2>
         <p className="text-zinc-400 mb-4">
-          WaveForge is purpose-built to deliver exact media matches for users searching for high-intent conversion utilities. By eliminating third-party pop-under scripts and client-side trackers, our platform renders up to 5x faster than legacy converter websites while guaranteeing audio integrity.
+          YT4MP3 is purpose-built to deliver exact media matches for users searching for high-intent conversion utilities. By eliminating third-party pop-under scripts and client-side trackers, our platform renders up to 5x faster than legacy converter websites while guaranteeing audio integrity.
         </p>
 
         {item?.usp && (

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Convert and download YouTube videos to true 320kbps MP3 audio with crystal-clear dynamic range. Fast, free, ad-free, and works seamlessly on iPhone, Android, and PC.",
   alternates: {
-    canonical: "/youtube-to-mp3-320kbps",
+    canonical: "https://yt4mp3.cc/youtube-to-mp3-320kbps",
   },
 };
 
@@ -21,7 +21,7 @@ export default function YoutubeToMp3_320kbpsPage() {
     },
     {
       q: "Does YouTube actually have 320kbps audio?",
-      a: "YouTube delivers audio using Opus (typically up to 160kbps) and AAC (up to 256kbps on YouTube Music). Because Opus at 160kbps is psychoacoustically equivalent to 320kbps MP3, WaveForge transcodes the raw Opus stream into a 320kbps CBR MP3 file so your legacy MP3 players and car stereos receive the richest possible sound without dynamic compression.",
+      a: "YouTube delivers audio using Opus (typically up to 160kbps) and AAC (up to 256kbps on YouTube Music). Because Opus at 160kbps is psychoacoustically equivalent to 320kbps MP3, YT4MP3 transcodes the raw Opus stream into a 320kbps CBR MP3 file so your legacy MP3 players and car stereos receive the richest possible sound without dynamic compression.",
     },
     {
       q: "Is converting YouTube to 320kbps MP3 free on this site?",

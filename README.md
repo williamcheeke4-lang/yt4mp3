@@ -1,35 +1,24 @@
-# WaveForge – Next-Gen YouTube to MP3 & MP4 Converter (Ready for Vercel)
+# YT4MP3.cc – Next-Gen YouTube to MP3 & MP4 Converter
 
-WaveForge is a high-performance, ad-free YouTube audio and video conversion platform built with **Next.js (App Router), TypeScript, and Tailwind CSS**. Engineered for extreme speed, studio-grade audio fidelity (320kbps MP3 / 16-bit WAV PCM), and organic Google ranking via programmatic SEO.
+YT4MP3.cc is a high-performance, ad-free YouTube audio and video conversion platform built with **Next.js (App Router), TypeScript, and Tailwind CSS**. Engineered for extreme speed, studio-grade audio fidelity (320kbps MP3 / 16-bit WAV PCM), and organic Google ranking via programmatic SEO with 1,200+ target search pages.
+
+Live URL: [https://yt4mp3.cc](https://yt4mp3.cc)  
+GitHub Repo: [https://github.com/williamcheeke4-lang/yt4mp3](https://github.com/williamcheeke4-lang/yt4mp3)
 
 ---
 
-## 🚀 One-Click GitHub & Vercel Deployment
+## 🚀 Deployment & Setup
 
-### Step 1: Initialize Git Repository
-In your terminal, navigate to this project folder:
+Repository is linked to GitHub:
 ```bash
-cd "C:\Users\Admin\.gemini\antigravity\scratch\yt-converter-app"
-git init
-git add .
-git commit -m "Initial commit: WaveForge YouTube Media Engine"
+git remote set-url origin https://github.com/williamcheeke4-lang/yt4mp3.git
+git push origin main
 ```
 
-### Step 2: Push to Your GitHub Account
-1. Create a new repository on [GitHub](https://github.com/new) (e.g. `waveforge-converter`).
-2. Run:
+Deploying updates to Vercel production:
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/waveforge-converter.git
-git branch -M main
-git push -u origin main
+npx vercel --prod
 ```
-
-### Step 3: Deploy to Vercel
-1. Log in to [Vercel](https://vercel.com).
-2. Click **"Add New..."** → **"Project"**.
-3. Select your `waveforge-converter` repository.
-4. Framework preset will automatically detect **Next.js**.
-5. Click **"Deploy"**. Your site will be live on an ultra-fast global Edge CDN in ~60 seconds!
 
 ---
 
