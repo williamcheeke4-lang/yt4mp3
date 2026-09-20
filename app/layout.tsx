@@ -4,16 +4,17 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://yt4mp3.cc"),
+  metadataBase: new URL("https://www.yt4mp3.cc"),
   title: {
     default: "YT4MP3: Fast YouTube to MP3 Converter (320kbps) & MP4 Downloader",
     template: "%s | YT4MP3.cc",
   },
   description:
-    "Fast, free, and ad-free YouTube to MP3 converter. Download studio-quality 320kbps MP3 audio, uncompressed WAV, and 1080p MP4 videos with zero popups and no software required on YT4MP3.cc.",
+    "Fast, free, and ad-free YouTube to MP3 converter. Download studio-quality 320kbps MP3 audio, uncompressed WAV, and 1080p MP4 videos with zero popups and no software required on www.yt4mp3.cc.",
   keywords: [
     "yt4mp3",
     "yt4mp3.cc",
+    "www.yt4mp3.cc",
     "youtube to mp3",
     "youtube to mp3 converter",
     "youtube to mp3 320kbps",
@@ -42,11 +43,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://yt4mp3.cc",
+    url: "https://www.yt4mp3.cc",
     siteName: "YT4MP3.cc",
     title: "YT4MP3: High Fidelity YouTube to MP3 & MP4 Converter",
     description:
-      "Convert YouTube videos to 320kbps MP3 and 1080p MP4 with zero pop-up ads or redirects on YT4MP3.cc.",
+      "Convert YouTube videos to 320kbps MP3 and 1080p MP4 with zero pop-up ads or redirects on www.yt4mp3.cc.",
     images: [
       {
         url: "/og-image.png",
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "YT4MP3: YouTube to MP3 320kbps Converter",
     description:
-      "100% ad-free, fast YouTube to MP3 and MP4 conversion pipeline on YT4MP3.cc.",
+      "100% ad-free, fast YouTube to MP3 and MP4 conversion pipeline on www.yt4mp3.cc.",
   },
 };
 
@@ -74,7 +75,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "YT4MP3",
-    url: "https://yt4mp3.cc",
+    url: "https://www.yt4mp3.cc",
     applicationCategory: "MultimediaApplication",
     operatingSystem: "All (Windows, macOS, iOS, Android, Linux)",
     browserRequirements: "Requires JavaScript. Requires HTML5.",

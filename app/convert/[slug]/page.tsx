@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${item.title} | YT4MP3.cc`,
     description: item.description,
     alternates: {
-      canonical: `https://yt4mp3.cc/convert/${item.slug}`,
+      canonical: `https://www.yt4mp3.cc/convert/${item.slug}`,
     },
   };
 }

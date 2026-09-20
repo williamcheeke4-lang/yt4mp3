@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { TOP_KEYWORDS } from "@/lib/keywords";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://yt4mp3.cc";
+  const baseUrl = "https://www.yt4mp3.cc";
 
   const staticPages: MetadataRoute.Sitemap = [
     {

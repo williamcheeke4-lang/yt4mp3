@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Convert YouTube to WAV audio format online. 100% uncompressed 16-bit / 44.1kHz audio for music producers, video editors, and audio engineers. Fast, free, and no software needed.",
   alternates: {
-    canonical: "https://yt4mp3.cc/youtube-to-wav",
+    canonical: "https://www.yt4mp3.cc/youtube-to-wav",
   },
 };
 

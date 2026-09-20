@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Convert and download YouTube Shorts clips to 320kbps MP3 audio or 1080x1920 vertical MP4 video in seconds. 100% ad-free on iPhone and Android.",
   alternates: {
-    canonical: "https://yt4mp3.cc/youtube-shorts-downloader",
+    canonical: "https://www.yt4mp3.cc/youtube-shorts-downloader",
   },
 };
 

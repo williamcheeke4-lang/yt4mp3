@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Convert and download YouTube videos to 1080p Full HD and 4K MP4 format. Smooth 60FPS playback, no watermarks, and fast downloads across all mobile and desktop devices.",
   alternates: {
-    canonical: "https://yt4mp3.cc/youtube-to-mp4-1080p",
+    canonical: "https://www.yt4mp3.cc/youtube-to-mp4-1080p",
   },
 };
 

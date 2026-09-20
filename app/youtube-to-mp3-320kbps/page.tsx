@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Convert and download YouTube videos to true 320kbps MP3 audio with crystal-clear dynamic range. Fast, free, ad-free, and works seamlessly on iPhone, Android, and PC.",
   alternates: {
-    canonical: "https://yt4mp3.cc/youtube-to-mp3-320kbps",
+    canonical: "https://www.yt4mp3.cc/youtube-to-mp3-320kbps",
   },
 };
 

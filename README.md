@@ -2,7 +2,7 @@
 
 YT4MP3.cc is a high-performance, ad-free YouTube audio and video conversion platform built with **Next.js (App Router), TypeScript, and Tailwind CSS**. Engineered for extreme speed, studio-grade audio fidelity (320kbps MP3 / 16-bit WAV PCM), and organic Google ranking via programmatic SEO with 1,200+ target search pages.
 
-Live URL: [https://yt4mp3.cc](https://yt4mp3.cc)  
+Live URL: [https://www.yt4mp3.cc](https://www.yt4mp3.cc)  
 GitHub Repo: [https://github.com/williamcheeke4-lang/yt4mp3](https://github.com/williamcheeke4-lang/yt4mp3)
 
 ---
