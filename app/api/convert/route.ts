@@ -2,91 +2,108 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-interface ConvertRequest {
-  url: string;
-  format?: "mp3" | "mp4" | "wav" | "ogg" | "opus";
-  quality?: "320" | "256" | "128" | "1080" | "720" | "480" | "max";
+function extractVideoId(url: string): string | null {
+  const patterns = [
+    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/,
+    /^([\w-]{11})$/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.trim().match(pattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  }
+  return null;
 }
 
-const COBALT_INSTANCES = [
-  "https://api.cobalt.tools",
-  "https://cobalt.kwiatekm.tokyo",
-  "https://cobalt.streamrip.app",
-];
+const COMMON_HEADERS = {
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "Referer": "https://ytmp3.gl/",
+  "Origin": "https://ytmp3.gl",
+};
 
 export async function POST(req: NextRequest) {
   try {
-    const body: ConvertRequest = await req.json();
-    const { url, format = "mp3", quality = "320" } = body;
+    const body = await req.json();
+    const { url, format = "mp3" } = body;
 
     if (!url) {
-      return NextResponse.json({ error: "URL is required" }, { status: 400 });
+      return NextResponse.json({ error: "Please enter a valid YouTube URL" }, { status: 400 });
     }
 
-    const isAudioOnly = ["mp3", "wav", "ogg", "opus"].includes(format);
+    const videoId = extractVideoId(url);
+    if (!videoId) {
+      return NextResponse.json(
+        { error: "Invalid YouTube URL. Please provide a valid video or Shorts link." },
+        { status: 400 }
+      );
+    }
 
-    const payload: Record<string, any> = {
-      url: url.trim(),
-      downloadMode: isAudioOnly ? "audio" : "auto",
-      audioFormat: isAudioOnly ? format : "mp3",
-      audioBitrate: quality === "320" ? "320" : quality === "256" ? "256" : "128",
-      videoQuality: !isAudioOnly && quality ? quality : "1080",
-    };
+    const targetFormat = format === "mp4" ? "mp4" : "mp3";
+    const initUrl = `https://fancy-sea-5d3d.holy-breeze-fec5.workers.dev/?m=i&v=${videoId}&f=${targetFormat}&_=${Date.now()}`;
 
-    // Try Cobalt API instances
-    for (const endpoint of COBALT_INSTANCES) {
-      try {
-        const response = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "User-Agent": "WaveForge-Converter/1.0",
-          },
-          body: JSON.stringify(payload),
-        });
+    const initRes = await fetch(initUrl, { headers: COMMON_HEADERS });
+    if (!initRes.ok) {
+      return NextResponse.json(
+        { error: "Conversion server is temporarily busy. Please retry." },
+        { status: 502 }
+      );
+    }
 
-        if (response.ok) {
-          const result = await response.json();
-          // Cobalt returns status 'tunnel', 'redirect', or 'stream'
-          if (result.url) {
-            return NextResponse.json({
-              status: "success",
-              downloadUrl: result.url,
-              filename: result.filename || `audio_${Date.now()}.${format}`,
-              format,
-              quality,
-            });
+    let data = await initRes.json();
+
+    if (data.error && data.error > 0) {
+      return NextResponse.json(
+        { error: `Extraction error code: ${data.error}. Video may be private or restricted.` },
+        { status: 400 }
+      );
+    }
+
+    // If status is 'progress', poll the progress endpoint up to 6 times
+    if (data.status === "progress" && data.progressURL) {
+      const progressUrl = data.progressURL;
+      for (let i = 0; i < 6; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        try {
+          const pollRes = await fetch(progressUrl, { headers: COMMON_HEADERS });
+          if (pollRes.ok) {
+            const pdata = await pollRes.json();
+            if (pdata.status === "download" || pdata.progress === 3) {
+              data.status = "download";
+              if (pdata.title) data.title = pdata.title;
+              break;
+            }
           }
+        } catch {
+          // continue polling
         }
-      } catch (err) {
-        // Try next instance
-        continue;
       }
     }
 
-    // Fallback: If external instances are busy/rate-limited, provide a secure direct web-player download token
-    const videoIdMatch = url.match(/(?:v=|\/embed\/|\/watch\?v=|youtu\.be\/|\/shorts\/)([\w-]{11})/);
-    const videoId = videoIdMatch ? videoIdMatch[1] : null;
+    if (data.downloadURL) {
+      const title = data.title || "YouTube Audio";
+      // Point directly to our streaming proxy endpoint
+      const proxyDownloadUrl = `/api/download?url=${encodeURIComponent(
+        data.downloadURL
+      )}&title=${encodeURIComponent(title)}&format=${targetFormat}`;
 
-    if (videoId) {
       return NextResponse.json({
         status: "success",
-        downloadUrl: `https://www.youtube.com/watch?v=${videoId}`,
-        isStreamFallback: true,
-        message: "Stream ready. Click to initiate direct media transfer.",
-        format,
-        quality,
+        downloadUrl: proxyDownloadUrl,
+        title,
+        format: targetFormat,
       });
     }
 
     return NextResponse.json(
-      { error: "Conversion server is momentarily busy. Please retry in a few seconds." },
-      { status: 503 }
+      { error: "Could not process media stream. Please verify the URL and try again." },
+      { status: 500 }
     );
   } catch (error: any) {
     return NextResponse.json(
-      { error: error?.message || "Failed to process conversion request" },
+      { error: error?.message || "Internal conversion error occurred." },
       { status: 500 }
     );
   }

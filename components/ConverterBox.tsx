@@ -435,10 +435,8 @@ export default function ConverterBox({
             </div>
             <a
               href={downloadUrl}
-              target="_blank"
-              rel="noopener noreferrer"
               download
-              className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs sm:text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs sm:text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download File</span>
