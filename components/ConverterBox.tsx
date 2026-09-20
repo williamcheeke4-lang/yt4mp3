@@ -53,6 +53,7 @@ export default function ConverterBox({
   // Conversion process
   const [status, setStatus] = useState<"idle" | "converting" | "ready" | "error">("idle");
   const [downloadUrl, setDownloadUrl] = useState("");
+  const [embedUrl, setEmbedUrl] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [progressText, setProgressText] = useState("");
 
@@ -185,8 +186,9 @@ export default function ConverterBox({
 
       const data = await res.json();
 
-      if (res.ok && data.downloadUrl) {
-        setDownloadUrl(data.downloadUrl);
+      if (res.ok && (data.downloadUrl || data.embedUrl)) {
+        setDownloadUrl(data.downloadUrl || "");
+        setEmbedUrl(data.embedUrl || "");
         setStatus("ready");
       } else {
         setStatus("error");
@@ -426,21 +428,38 @@ export default function ConverterBox({
         )}
 
         {status === "ready" && (
-          <div className="mt-5 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5 text-emerald-300">
-              <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
-              <span className="text-xs sm:text-sm font-semibold">
-                Conversion Complete! ({format.toUpperCase()} · {quality} kbps)
-              </span>
+          <div className="mt-5 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 text-emerald-300">
+                <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-semibold">
+                  Ready to Download! ({format.toUpperCase()})
+                </span>
+              </div>
+              {downloadUrl && (
+                <a
+                  href={downloadUrl}
+                  download
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs sm:text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Direct Download</span>
+                </a>
+              )}
             </div>
-            <a
-              href={downloadUrl}
-              download
-              className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs sm:text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download File</span>
-            </a>
+
+            {embedUrl && (
+              <div className="w-full mt-2 rounded-xl overflow-hidden bg-black/60 border border-white/10 p-2">
+                <iframe
+                  src={embedUrl}
+                  width="100%"
+                  height="56px"
+                  scrolling="no"
+                  style={{ border: "none", overflow: "hidden" }}
+                  className="rounded-lg w-full"
+                />
+              </div>
+            )}
           </div>
         )}
 
