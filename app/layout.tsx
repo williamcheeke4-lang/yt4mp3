@@ -66,6 +66,9 @@ export const metadata: Metadata = {
     description:
       "100% ad-free, fast YouTube to MP3 and MP4 conversion pipeline on www.yt4mp3.cc.",
   },
+  verification: {
+    google: "kBwcY54FPHEU3a8ABNrTM2Q-itOqFVA0AnlTU4baZiw",
+  },
 };
 
 export default function RootLayout({
@@ -100,6 +103,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <head>
+        <meta
+          name="google-site-verification"
+          content="kBwcY54FPHEU3a8ABNrTM2Q-itOqFVA0AnlTU4baZiw"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
