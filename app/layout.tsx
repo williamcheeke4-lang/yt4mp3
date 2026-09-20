@@ -40,6 +40,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  alternates: {
+    canonical: "https://www.yt4mp3.cc/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",

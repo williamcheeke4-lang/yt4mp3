@@ -3,35 +3,36 @@ import { TOP_KEYWORDS } from "@/lib/keywords";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.yt4mp3.cc";
+  const today = new Date().toISOString().split("T")[0];
 
   const staticPages: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
-      lastModified: new Date(),
+      url: `${baseUrl}/`,
+      lastModified: today,
       changeFrequency: "daily",
       priority: 1.0,
     },
     {
       url: `${baseUrl}/youtube-to-mp3-320kbps`,
-      lastModified: new Date(),
+      lastModified: today,
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/youtube-to-wav`,
-      lastModified: new Date(),
+      lastModified: today,
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/youtube-to-mp4-1080p`,
-      lastModified: new Date(),
+      lastModified: today,
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/youtube-shorts-downloader`,
-      lastModified: new Date(),
+      lastModified: today,
       changeFrequency: "daily",
       priority: 0.8,
     },
@@ -39,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const programmaticPages: MetadataRoute.Sitemap = TOP_KEYWORDS.map((k) => ({
     url: `${baseUrl}/convert/${k.slug}`,
-    lastModified: new Date(),
+    lastModified: today,
     changeFrequency: "weekly",
     priority: k.kd <= 20 ? 0.8 : 0.7,
   }));
