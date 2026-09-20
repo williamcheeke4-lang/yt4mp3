@@ -12,8 +12,6 @@ import {
   Loader2,
   Music,
   Video,
-  ExternalLink,
-  ChevronDown
 } from "lucide-react";
 
 interface VideoInfo {
@@ -40,7 +38,7 @@ export default function ConverterBox({
   const [url, setUrl] = useState("");
   const [format, setFormat] = useState<"mp3" | "mp4" | "wav" | "flac" | "m4a">(defaultFormat);
   const [quality, setQuality] = useState(defaultQuality);
-  
+
   // Suggestion & Search State
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -51,13 +49,24 @@ export default function ConverterBox({
   const [isFetchingInfo, setIsFetchingInfo] = useState(false);
 
   // Conversion process
-  const [status, setStatus] = useState<"idle" | "converting" | "ready" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "converting" | "processing" | "ready" | "error">("idle");
   const [downloadUrl, setDownloadUrl] = useState("");
-  const [embedUrl, setEmbedUrl] = useState("");
+  const [downloadTitle, setDownloadTitle] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [progressText, setProgressText] = useState("");
+  const [progressPercent, setProgressPercent] = useState(0);
 
   const searchBoxRef = useRef<HTMLDivElement>(null);
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Clean up polling interval on unmount
+  useEffect(() => {
+    return () => {
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+      }
+    };
+  }, []);
 
   // Click outside to close suggestions
   useEffect(() => {
@@ -148,7 +157,48 @@ export default function ConverterBox({
   function handleSelectSuggestion(suggestion: string) {
     setUrl(suggestion);
     setShowSuggestions(false);
-    // User can click search on YouTube or convert
+  }
+
+  // Poll for Progress
+  function startPollingProgress(progressUrl: string, title: string) {
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current);
+    }
+
+    let checks = 0;
+    pollingIntervalRef.current = setInterval(async () => {
+      checks++;
+      try {
+        const res = await fetch(`/api/progress?url=${encodeURIComponent(progressUrl)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.progress) {
+            const pct = Math.min(Math.round((data.progress / 1000) * 100), 99);
+            setProgressPercent(pct > 0 ? pct : 35);
+          }
+          if (data.text) {
+            setProgressText(data.text);
+          }
+
+          if (data.download_url) {
+            if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
+            setDownloadUrl(data.download_url);
+            setDownloadTitle(data.title || title);
+            setStatus("ready");
+            setProgressPercent(100);
+          }
+        }
+      } catch {
+        // ignore network hiccups during polling
+      }
+
+      // Timeout after 60 seconds (40 checks)
+      if (checks > 40) {
+        if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
+        setStatus("error");
+        setErrorMessage("Conversion took too long. Please try again.");
+      }
+    }, 1500);
   }
 
   // Execute Conversion
@@ -158,17 +208,14 @@ export default function ConverterBox({
       return;
     }
 
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current);
+    }
+
     setStatus("converting");
     setErrorMessage("");
-    setProgressText("Resolving audio bitstream...");
-
-    const progressTimer = setTimeout(() => {
-      setProgressText("Demuxing 320kbps audio container...");
-    }, 1200);
-
-    const progressTimer2 = setTimeout(() => {
-      setProgressText("Finalizing high-fidelity download link...");
-    }, 2400);
+    setProgressPercent(20);
+    setProgressText("Initializing audio/video extractor...");
 
     try {
       const res = await fetch("/api/convert", {
@@ -181,24 +228,30 @@ export default function ConverterBox({
         }),
       });
 
-      clearTimeout(progressTimer);
-      clearTimeout(progressTimer2);
-
       const data = await res.json();
 
-      if (res.ok && (data.downloadUrl || data.embedUrl)) {
-        setDownloadUrl(data.downloadUrl || "");
-        setEmbedUrl(data.embedUrl || "");
-        setStatus("ready");
+      if (res.ok) {
+        if (data.status === "ready" && data.downloadUrl) {
+          setDownloadUrl(data.downloadUrl);
+          setDownloadTitle(data.title || videoInfo?.title || "download");
+          setStatus("ready");
+          setProgressPercent(100);
+        } else if (data.status === "processing" && data.progressUrl) {
+          setStatus("processing");
+          setProgressPercent(45);
+          setProgressText("Processing media container...");
+          startPollingProgress(data.progressUrl, data.title || videoInfo?.title || "media");
+        } else {
+          setStatus("error");
+          setErrorMessage(data.error || "Could not generate download stream.");
+        }
       } else {
         setStatus("error");
-        setErrorMessage(data.error || "Conversion failed. Please verify the URL and retry.");
+        setErrorMessage(data.error || "Failed to initialize conversion.");
       }
     } catch {
-      clearTimeout(progressTimer);
-      clearTimeout(progressTimer2);
       setStatus("error");
-      setErrorMessage("Network connection timed out. Please retry.");
+      setErrorMessage("Connection error. Please check your internet and retry.");
     }
   }
 
@@ -257,13 +310,13 @@ export default function ConverterBox({
             {/* Action Trigger */}
             <button
               onClick={handleConvert}
-              disabled={status === "converting"}
-              className="mr-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-violet-600 to-primary hover:from-violet-500 hover:to-primary-hover text-white text-sm font-semibold shadow-md shadow-violet-600/30 disabled:opacity-50 transition-all flex items-center gap-2"
+              disabled={status === "converting" || status === "processing"}
+              className="mr-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-violet-600 to-primary hover:from-violet-500 hover:to-primary-hover text-white text-sm font-semibold shadow-md shadow-violet-600/30 disabled:opacity-50 transition-all flex items-center gap-2 cursor-pointer"
             >
-              {status === "converting" ? (
+              {status === "converting" || status === "processing" ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Converting</span>
+                  <span>Processing</span>
                 </>
               ) : (
                 <>
@@ -315,7 +368,7 @@ export default function ConverterBox({
               <p className="text-xs text-zinc-400 mt-0.5">{videoInfo.author}</p>
               <div className="flex items-center justify-center sm:justify-start gap-2 mt-2">
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  Ready to Extract
+                  Ready to Download
                 </span>
                 <span className="text-[10px] text-zinc-500">ID: {videoInfo.videoId}</span>
               </div>
@@ -339,7 +392,7 @@ export default function ConverterBox({
               }`}
             >
               <Music className="w-3.5 h-3.5" />
-              MP3
+              MP3 Audio
             </button>
             <button
               onClick={() => {
@@ -352,7 +405,7 @@ export default function ConverterBox({
                   : "text-zinc-400 hover:text-white"
               }`}
             >
-              WAV Lossless
+              WAV
             </button>
             <button
               onClick={() => {
@@ -414,55 +467,57 @@ export default function ConverterBox({
           </div>
         </div>
 
-        {/* Progress & Ready Download States */}
-        {status === "converting" && (
-          <div className="mt-5 p-4 rounded-xl bg-violet-950/30 border border-violet-500/20 flex items-center gap-3">
-            <Loader2 className="w-5 h-5 text-violet-400 animate-spin flex-shrink-0" />
-            <div className="flex-1">
-              <p className="text-xs font-medium text-violet-200">{progressText}</p>
-              <div className="w-full bg-zinc-800 h-1.5 rounded-full mt-2 overflow-hidden">
-                <div className="bg-gradient-to-r from-violet-500 to-cyan-400 h-full rounded-full animate-pulse-slow w-3/4" />
+        {/* Progress State (Real Dynamic Percentage) */}
+        {(status === "converting" || status === "processing") && (
+          <div className="mt-5 p-4 rounded-xl bg-violet-950/30 border border-violet-500/20 flex flex-col gap-2.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-violet-300 text-xs font-medium">
+                <Loader2 className="w-4 h-4 text-violet-400 animate-spin" />
+                <span>{progressText || "Processing media stream..."}</span>
               </div>
+              <span className="text-xs font-mono font-bold text-violet-300">
+                {progressPercent > 0 ? `${progressPercent}%` : ""}
+              </span>
+            </div>
+            <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-violet-500 via-primary to-cyan-400 h-full rounded-full transition-all duration-300"
+                style={{ width: `${Math.max(progressPercent, 15)}%` }}
+              />
             </div>
           </div>
         )}
 
-        {status === "ready" && (
-          <div className="mt-5 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 flex flex-col gap-3">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5 text-emerald-300">
-                <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
-                <span className="text-xs sm:text-sm font-semibold">
-                  Ready to Download! ({format.toUpperCase()})
+        {/* Ready State: DIRECT DOWNLOAD BUTTON */}
+        {status === "ready" && downloadUrl && (
+          <div className="mt-5 p-5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-sm font-bold text-white block">
+                  Download Ready! ({format.toUpperCase()})
+                </span>
+                <span className="text-xs text-emerald-300/80 block max-w-sm truncate">
+                  {downloadTitle || "Click the button to download directly."}
                 </span>
               </div>
-              {downloadUrl && (
-                <a
-                  href={downloadUrl}
-                  download
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs sm:text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Direct Download</span>
-                </a>
-              )}
             </div>
 
-            {embedUrl && (
-              <div className="w-full mt-2 rounded-xl overflow-hidden bg-black/60 border border-white/10 p-2">
-                <iframe
-                  src={embedUrl}
-                  width="100%"
-                  height="56px"
-                  scrolling="no"
-                  style={{ border: "none", overflow: "hidden" }}
-                  className="rounded-lg w-full"
-                />
-              </div>
-            )}
+            <a
+              href={downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-sm font-bold shadow-lg shadow-emerald-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer transform hover:scale-[1.02]"
+            >
+              <Download className="w-5 h-5" />
+              <span>Download {format.toUpperCase()}</span>
+            </a>
           </div>
         )}
 
+        {/* Error State */}
         {status === "error" && (
           <div className="mt-5 p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/30 flex items-center gap-2.5 text-rose-300 text-xs">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />

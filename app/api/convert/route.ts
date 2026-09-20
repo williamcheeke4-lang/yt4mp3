@@ -15,20 +15,13 @@ function extractVideoId(url: string): string | null {
   return null;
 }
 
-const COMMON_HEADERS = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  "Referer": "https://ytmp3.gl/",
-  "Origin": "https://ytmp3.gl",
-};
-
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { url, format = "mp3" } = body;
+    const { url, format = "mp3", quality = "320" } = body;
 
     if (!url) {
-      return NextResponse.json({ error: "Please enter a valid YouTube URL" }, { status: 400 });
+      return NextResponse.json({ error: "Please enter a valid YouTube link" }, { status: 400 });
     }
 
     const videoId = extractVideoId(url);
@@ -39,71 +32,98 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const targetFormat = format === "mp4" ? "mp4" : "mp3";
-    const embedUrl = `https://ytc.re/button/${targetFormat}/${videoId}?lang=en`;
+    const cleanUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
-    // Try direct worker extraction
-    try {
-      const initUrl = `https://fancy-sea-5d3d.holy-breeze-fec5.workers.dev/?m=i&v=${videoId}&f=${targetFormat}&_=${Date.now()}`;
-      const initRes = await fetch(initUrl, {
-        headers: COMMON_HEADERS,
-        cache: "no-store",
-      });
-
-      if (initRes.ok) {
-        let data = await initRes.json();
-
-        // If status is progress, poll
-        if (data.status === "progress" && data.progressURL) {
-          const progressUrl = data.progressURL;
-          for (let i = 0; i < 4; i++) {
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-            try {
-              const pollRes = await fetch(progressUrl, { headers: COMMON_HEADERS });
-              if (pollRes.ok) {
-                const pdata = await pollRes.json();
-                if (pdata.status === "download" || pdata.progress === 3) {
-                  data.status = "download";
-                  if (pdata.title) data.title = pdata.title;
-                  break;
-                }
-              }
-            } catch {
-              // continue
-            }
-          }
-        }
-
-        if (data.downloadURL) {
-          const title = data.title || "YouTube Audio";
-          const proxyDownloadUrl = `/api/download?url=${encodeURIComponent(
-            data.downloadURL
-          )}&title=${encodeURIComponent(title)}&format=${targetFormat}`;
-
-          return NextResponse.json({
-            status: "success",
-            downloadUrl: proxyDownloadUrl,
-            embedUrl,
-            videoId,
-            title,
-            format: targetFormat,
-          });
-        }
-      }
-    } catch {
-      // Worker blocked or busy, fallback to embedUrl
+    // Map requested format to API format
+    let apiFormat = "mp3";
+    if (format === "mp4") {
+      apiFormat = quality === "720" ? "720" : quality === "480" ? "480" : "1080";
+    } else if (format === "wav") {
+      apiFormat = "wav";
+    } else if (format === "flac") {
+      apiFormat = "flac";
+    } else if (format === "m4a") {
+      apiFormat = "m4a";
+    } else {
+      apiFormat = "mp3";
     }
 
-    // High reliability fallback: return embedUrl & videoId
-    return NextResponse.json({
-      status: "success",
-      embedUrl,
-      videoId,
-      format: targetFormat,
+    const apiUrl = `https://loader.to/ajax/download.php?format=${apiFormat}&url=${encodeURIComponent(cleanUrl)}`;
+
+    const res = await fetch(apiUrl, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      },
+      cache: "no-store",
     });
-  } catch (error: any) {
+
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: "Converter service is temporarily busy. Please retry in a few moments." },
+        { status: 502 }
+      );
+    }
+
+    const data = await res.json();
+
+    if (!data.success) {
+      return NextResponse.json(
+        { error: data.message || "Failed to initialize conversion for this video." },
+        { status: 400 }
+      );
+    }
+
+    const progressUrl = data.progress_url;
+    const title = data.title || "YouTube Media";
+
+    // Check if download URL is ready immediately
+    if (progressUrl) {
+      for (let i = 0; i < 3; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        try {
+          const pollRes = await fetch(progressUrl, {
+            headers: {
+              "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            },
+            cache: "no-store",
+          });
+
+          if (pollRes.ok) {
+            const pdata = await pollRes.json();
+            if (pdata.download_url) {
+              return NextResponse.json({
+                status: "ready",
+                downloadUrl: pdata.download_url,
+                title: pdata.title || title,
+                format,
+                quality,
+              });
+            }
+          }
+        } catch {
+          // continue to next poll
+        }
+      }
+
+      // If still processing after quick check, let frontend poll
+      return NextResponse.json({
+        status: "processing",
+        progressUrl,
+        title,
+        format,
+        quality,
+      });
+    }
+
     return NextResponse.json(
-      { error: error?.message || "Conversion failed. Please verify the URL." },
+      { error: "Could not generate download link. Please retry." },
+      { status: 500 }
+    );
+  } catch (err: any) {
+    return NextResponse.json(
+      { error: err?.message || "Conversion request failed" },
       { status: 500 }
     );
   }
